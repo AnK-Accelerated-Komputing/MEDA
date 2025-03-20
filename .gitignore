@@ -1,1 +1,6 @@
 /tests/results
+/tmp
+./_pycache_
+**/__pycache__
+/.cache
+/NewCADs

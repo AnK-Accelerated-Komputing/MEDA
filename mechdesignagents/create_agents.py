@@ -11,8 +11,8 @@ from typing_extensions import Annotated
 
 from utils.get_sys_msg import get_system_message
 from utils.langchain_web import web_rag
-from ptests.get_image_info import get_image_info
-from ptests.return_img_path import get_latest_png
+from tests.get_image_info import get_image_info
+from tests.return_img_path import get_latest_png
 
 
 def create_mechdesign_agents(config):
@@ -130,7 +130,7 @@ def create_mechdesign_agents(config):
         system_message=get_system_message("Executor"),
         code_execution_config={
             "last_n_messages": 4,
-            "work_dir": "ptests/results/CAD_Prompts_reviewer_30",
+            "work_dir": "NewCADs",
             "use_docker": False,
             "timeout": 20,
         },
