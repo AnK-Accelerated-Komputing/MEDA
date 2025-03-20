@@ -1,0 +1,33 @@
+A cube with 5mm sides.
+A box of dimension 400x500x30.
+A sphere with a 10mm radius.
+A cylinder with a 15mm radius and 25mm height.
+A cone with a 10mm base radius and 30mm height.
+A triangular prism with 12mm base sides and 40mm length.
+A rectangular prism measuring 30mm × 20mm × 10mm.
+A hexagonal prism with 8mm side length and 20mm height.
+An octagonal prism with 5mm sides and 15mm height.
+A hemisphere with a 20mm radius.
+A torus with a 30mm major radius and 10mm minor radius.
+A diamond-shaped plate (rhombus) with 25mm and 15mm diagonals and 2mm thickness.
+A trapezoidal prism with 30mm/20mm bases, 10mm height, and 40mm length.
+An elliptical plate with 40mm major axis, 25mm minor axis, and 3mm thickness.
+A pentagonal prism with 8mm sides and 30mm height.
+A heptagonal prism with 15mm side length and 200mm height.
+A half-cylinder, sectioned from top face, with 10mm radius and 50mm length.
+A rectangular pyramid with a 20mm × 10mm base and 30mm height.
+A square pyramid with a 25mm base and 50mm height.
+A triangular plate with 25mm base, 15mm height, and 4mm thickness.
+A decagonal prism with 6mm sides and 25mm height.
+A quarter cylinder with 20mm radius and 30mm height.
+A rectangular frame (outer 50mm × 30mm, inner 40mm × 20mm, 10mm height).
+A wedge (right triangular prism) with 20mm base, 15mm height, and 30mm length.
+A ring of outer diameter 100mm and inner diameter 60mm with thickness 5mm.
+An elliptical cylinder with 20mm major axis, 10mm minor axis, and 15mm height.
+A square prism (side 6mm, 50mm length).
+A dome (hemisphere) with 25mm radius.
+A circular disk (15mm radius, 5mm height).
+A pentagonal pyramid with 8mm base sides and 20mm height.
+A semi-elliptical cylinder (30mm major axis, 15mm minor axis, 20mm height).
+A truncated cone of height 100mm with 15mm base radius and 10mm top radius.
+A shaft of diameter 50mm and length 500mm.

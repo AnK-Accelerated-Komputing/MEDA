@@ -1,0 +1,34 @@
+name: MEDA
+channels:
+  - conda-forge
+  - cadquery
+  - defaults
+dependencies:
+  - python=3.12
+  - conda-forge::cadquery
+  - jupyterlab
+  - ca-certificates
+  - openssl
+  - pip
+  - setuptools
+  - streamlit
+  - python-dotenv
+  - SQLAlchemy
+  - pip:
+    - autogen
+    - groq
+    - ocp_tessellate
+    - ocp_vscode
+    - pyautogen
+    - tiktoken
+    - autogen[retrievechat]
+    - pyautogen[gemini]
+    - flaml[automl]
+    - langchain-community
+    - langchain_groq
+    - langchain-huggingface
+    - langchain-chroma
+    - streamlit_stl
+    - langchain-core
+    - langchain
+    - langchain-openai
