@@ -1,0 +1,108 @@
+# Model configurations
+models:
+  deepseek-r1-distill-llama-70b:
+    api_type: "groq"
+    api_key_env: "GROQ_API_KEY"
+    multimodal: False
+    
+  gemma2-9b-it:
+    api_type: "groq"
+    api_key_env: "GROQ_API_KEY"
+    multimodal: False
+    
+  llama-3.1-8b-instant:
+    api_type: "groq"
+    api_key_env: "GROQ_API_KEY"
+    multimodal: False
+  
+  llama-3.2-11b-vision-preview:
+    api_type: "groq"
+    api_key_env: "GROQ_API_KEY"
+    multimodal: True
+  
+  llama-3.2-1b-preview:
+    api_type: "groq"
+    api_key_env: "GROQ_API_KEY"
+    multimodal: False
+
+  llama-3.2-90b-vision-preview:
+    api_type: "groq"
+    api_key_env: "GROQ_API_KEY"
+    multimodal: True
+  
+  llama-3.3-70b-specdec:
+    api_type: "groq"
+    api_key_env: "GROQ_API_KEY"
+    multimodal: False
+  
+  llama-3.3-70b-versatile:
+    api_type: "groq"
+    api_key_env: "GROQ_API_KEY"
+    multimodal: False
+  
+  llama-guard-3-8b:
+    api_type: "groq"
+    api_key_env: "GROQ_API_KEY"
+    multimodal: False
+  
+  llama3-70b-8192:
+    api_type: "groq"
+    api_key_env: "GROQ_API_KEY"
+    multimodal: False
+  
+  mixtral-8x7b-32768:
+    api_type: "groq"
+    api_key_env: "GROQ_API_KEY"
+    multimodal: False
+  
+  llama3-8b-8192:
+    api_type: "groq"
+    api_key_env: "GROQ_API_KEY"
+    multimodal: False
+    
+  gemini-1.5-pro:
+    api_type: "google"
+    api_key_env: "GEMINI_API_KEY"
+    multimodal: True
+    
+  claude-3-opus-20240229:
+    api_type: "anthropic"
+    api_key_env: "ANTHROPIC_API_KEY"
+    multimodal: True
+  
+  claude-3-5-sonnet-20241022:
+    api_type: "anthropic"
+    api_key_env: "ANTHROPIC_API_KEY"
+    multimodal: True
+  
+  claude-3-5-haiku-20241022:
+    api_type: "anthropic"
+    api_key_env: "ANTHROPIC_API_KEY"
+    multimodal: True
+  
+  gpt-4o: 
+    api_type: "openai"
+    api_key_env: "OPENAI_API_KEY"
+    multimodal: True
+  
+  gpt-4-turbo: 
+    api_type: "openai"
+    api_key_env: "OPENAI_API_KEY"
+    multimodal: True
+
+
+# Default configuration
+default_models:
+  gpt-4o:
+    model: "gpt-4o-0806"
+    api_key: "AZURE_API_KEY"
+    api_type: "azure"
+    api_version: "2024-08-01-preview"
+    base_url: "AZURE_OPENAI_BASE"
+  
+  o1:
+    model: "o1"
+    api_key: "O1_API_KEY"
+    api_type: "azure"
+    api_version: "2024-12-01-preview"
+    base_url: "O1_OPENAI_BASE"
