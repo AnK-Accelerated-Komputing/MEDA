@@ -17,7 +17,7 @@ def file_path_finder(chat_history):
     py_filename = None
 
     for entry in chat_history:
-        if entry['name'] == 'CadQuery_Code_Writer':
+        if entry['name'] == 'CAD_Script_Writer':
             # Find STL filename
             stl_match = re.search(r'"([^"]+\.stl)"', entry['content'])
             if stl_match:

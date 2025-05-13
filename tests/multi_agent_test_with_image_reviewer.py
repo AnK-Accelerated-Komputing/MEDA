@@ -4,7 +4,7 @@ Agents are:
 2. Design Expert
 3. CAD Coder
 4. Executor
-5. Reviewer"""
+5. Script_Execution_Reviewer"""
 import json
 import os
 import sys
@@ -16,7 +16,7 @@ from autogen import GroupChat, GroupChatManager
 from autogen.agentchat.utils import gather_usage_summary
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(root_dir)
-from mechdesignagents.create_agents import create_mechdesign_agents
+from meda.create_agents import create_mechdesign_agents
 
 class TeeStream:
     """Stream object that writes to both terminal and file"""
@@ -86,9 +86,13 @@ def save_results(results, filename):
 
 def main():
     """Multi agent CAD generation with batch processing"""
-    # Create output directory
+    #Set the working directory for CAD generation
+    #Change this to your desired working directory
+    cad_working_dir = "tests/results/CAD_prompts_30_4"
+
+    # Create output directory for log files
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = f"ptests/results/CAD_Prompts_reviewer_30_{timestamp}"
+    output_dir = f"tests/results/CAD_Prompts_reviewer_30_3_{timestamp}"
     os.makedirs(output_dir, exist_ok=True)
 
     # Files for logging
@@ -107,23 +111,22 @@ def main():
                 "api_type": "azure",
                 "api_version": "2024-08-01-preview"
             }
-        agents_list = create_mechdesign_agents(config)
+        agents_list = create_mechdesign_agents(config,working_dir=cad_working_dir)
         text_agents = [agents_list[0], #user
-                       agents_list[3], #design expert
-                       agents_list[5], #cad coder
-                       agents_list[6], #executor
-                        agents_list[7], #reviewer
-                        agents_list[9],] #cad image reviewer
+                       agents_list[1], #design expert
+                       agents_list[2], #cad coder
+                       agents_list[3], #executor
+                        agents_list[4], #reviewer
+                        agents_list[5],] #cad image reviewer
         graph_dict = {}
-        graph_dict[agents_list[0]] = [agents_list[3]]
-        graph_dict[agents_list[3]] = [agents_list[5]]
-        graph_dict[agents_list[5]] = [agents_list[6]]
-        graph_dict[agents_list[6]] = [agents_list[7]]
-        graph_dict[agents_list[7]] = [agents_list[3],agents_list[5],agents_list[9]]
-        graph_dict[agents_list[9]] = [agents_list[3]]
+        graph_dict[agents_list[0]] = [agents_list[1]]
+        graph_dict[agents_list[1]] = [agents_list[2]]
+        graph_dict[agents_list[2]] = [agents_list[3]]
+        graph_dict[agents_list[3]] = [agents_list[4]]
+        graph_dict[agents_list[4]] = [agents_list[1],agents_list[2],agents_list[5]]
+        graph_dict[agents_list[5]] = [agents_list[1]]
         
         groupchat = GroupChat(
-            # agents=[User,designer_expert,cad_coder, executor, reviewer,cad_data_reviewer],
             agents=text_agents,
             messages=[],
             max_round=30,
@@ -145,7 +148,7 @@ def main():
         print("\nBatch CAD generation system")
         print("----------------------------------")
         try:
-            filename = "ptests/prompts/cad_prompts.txt"
+            filename = "data/cad_prompts.txt"
             prompts = read_prompts_from_file(filename)
             for agent in text_agents:
                 agent.reset()

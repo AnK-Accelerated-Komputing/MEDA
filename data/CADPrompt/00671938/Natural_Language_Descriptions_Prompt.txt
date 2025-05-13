@@ -1,1 +1,0 @@
-Write Python code using CADQuery to create a cylindrical object. Create a sketch of two circles which overlap, and extrude this sketch.

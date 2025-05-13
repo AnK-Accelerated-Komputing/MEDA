@@ -1,1 +1,0 @@
-Write Python code using CADQuery to create a trapezoidal prism. Draw a sketch of a trapezoid and then extrude it.

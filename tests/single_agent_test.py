@@ -126,7 +126,7 @@ def main():
         )
 
         cad_coder = AssistantAgent(
-            "CadQuery_Code_Writer",
+            "CAD_Script_Writer",
             system_message="""You only create the CAD model requested by the User.
         You write python code to create CAD models using CadQuery.
         Wrap the code in a code block that specifies the script type.
@@ -191,7 +191,7 @@ def main():
         print("\nBatch CAD generation system")
         print("----------------------------------")
         try:
-            filename = "ptests/prompts.txt"
+            filename = "tests/prompts.txt"
             prompts = read_prompts_from_file(filename)
 
             if not prompts:

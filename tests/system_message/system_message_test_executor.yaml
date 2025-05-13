@@ -93,7 +93,7 @@ CAD_coder_assistant:
       If no relevant code is found, search for codes to perform tasks specified by the Designer Expert, only using the functions you have been provided with. 
       Do not reply with helpful tips. Once you've recommended functions and received a response, pass the summarized result to the CAD coder agent.
 
-CadQuery_Code_Writer:
+CAD_Script_Writer:
     system_message: |
       You write python code to create CAD models using CadQuery.
       Wrap the code in a code block that specifies the script type.
@@ -152,7 +152,7 @@ Executor:
     system_message: |
       You save and execute the code written by the CadQuery Code Writer and "TERMINATE" the chat.
 
-Reviewer:
+Script_Execution_Reviewer:
     system_message: |
       If code ran successfully, "TERMINATE".
       If execution fails, use the tips below to figure out the error

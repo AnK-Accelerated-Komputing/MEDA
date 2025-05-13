@@ -5,7 +5,7 @@ Agents are:
 2. Design Expert
 3. CAD Coder
 4. Executor
-5. Reviewer"""
+5. Script_Execution_Reviewer"""
 import json
 import os
 import sys
@@ -17,7 +17,7 @@ from autogen import GroupChat, GroupChatManager
 from autogen.agentchat.utils import gather_usage_summary
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(root_dir)
-from mechdesignagents.create_agents import create_mechdesign_agents
+from meda.create_agents import create_mechdesign_agents
 
 class TeeStream:
     """Stream object that writes to both terminal and file"""
@@ -89,8 +89,9 @@ def main():
     """Multi agent CAD generation with batch processing"""
     # Create output directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = f"ptests/results/CAD_prompts_{timestamp}"
+    output_dir = f"tests/results/CAD_prompts_{timestamp}"
     os.makedirs(output_dir, exist_ok=True)
+    cad_working_dir= f"tests/results"
 
     # Files for logging
     log_file = os.path.join(output_dir, "terminal_output.log")
@@ -108,11 +109,11 @@ def main():
                 "api_type": "azure",
                 "api_version": "2024-08-01-preview"
             }
-        agents_list = create_mechdesign_agents(config)
+        agents_list = create_mechdesign_agents(config,working_dir=cad_working_dir)
         text_agents = [agents_list[0],
-                       agents_list[3],
-                       agents_list[5],
-                       agents_list[6],]
+                       agents_list[1],
+                       agents_list[2],
+                       agents_list[3],]
                     #    agents_list[7],]
 
         groupchat = GroupChat(
@@ -138,7 +139,7 @@ def main():
         print("\nBatch CAD generation system")
         print("----------------------------------")
         try:
-            filename = "ptests/prompts/cad_prompts.txt"
+            filename = "data/cad_prompts.txt"
             prompts = read_prompts_from_file(filename)
             for agent in text_agents:
                 agent.reset()
@@ -240,7 +241,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-show(part)
-save_screenshot('ptests.png')

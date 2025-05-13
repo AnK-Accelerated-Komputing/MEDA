@@ -1,2 +1,0 @@
- 
-Write Python code using CADQuery to create a "R" shape and extrude it.

@@ -1,1 +1,0 @@
-Write Python code using CADQuery to create a star-shaped 3D object. First, create a sketch of a 5-sided star and then extrude this sketch. Each vertice should create a slightly different angle.

@@ -1,1 +1,0 @@
-Write Python code using CADQuery to create an annulus shape and then extrude it.

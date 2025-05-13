@@ -4,7 +4,7 @@ Agents are:
 2. Design Expert
 3. CAD Coder
 4. Executor
-5. Reviewer"""
+5. Script_Execution_Reviewer"""
 import json
 import os
 import sys
@@ -17,7 +17,7 @@ from autogen.agentchat.contrib.capabilities.vision_capability import VisionCapab
 from autogen.agentchat.utils import gather_usage_summary
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(root_dir)
-from mechdesignagents.create_agents import create_mechdesign_agents
+from meda.create_agents import create_mechdesign_agents
 
 class TeeStream:
     """Stream object that writes to both terminal and file"""
@@ -89,7 +89,7 @@ def main():
     """Multi agent CAD generation with batch processing"""
     # Create output directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = f"ptests/results/CAD_prompts_executor_CAD_ablation{timestamp}"
+    output_dir = f"tests/results/CAD_prompts_executor_CAD_ablation{timestamp}"
     os.makedirs(output_dir, exist_ok=True)
 
     # Files for logging
@@ -153,7 +153,7 @@ def main():
         print("\nBatch CAD generation system")
         print("----------------------------------")
         try:
-            filename = "ptests/prompts/cad_prompts.txt"
+            filename = "data/cad_prompts.txt"
             prompts = read_prompts_from_file(filename)
             for agent in text_agents:
                 agent.reset()

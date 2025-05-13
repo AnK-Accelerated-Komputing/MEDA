@@ -15,7 +15,7 @@ from autogen.agentchat.utils import gather_usage_summary
 
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(root_dir)
-from mechdesignagents.create_agents import create_mechdesign_agents
+from meda.create_agents import create_mechdesign_agents
 
 
 
@@ -135,7 +135,7 @@ def main():
         print("\nBatch CAD generation system")
         print("----------------------------------")
         try:
-            filename = "ptests/prompts.txt"
+            filename = "tests/prompts.txt"
             prompts = read_prompts_from_file(filename)
             if not prompts:
                 print("No prompts found in file. Exiting.")

@@ -1,1 +1,0 @@
-Write Python code using CADQuery to create a regular octagon, and then extrude it.

@@ -33,7 +33,7 @@ CAD_coder_assistant:
       If no relevant code is found, search for codes to perform tasks specified by the Designer Expert, only using the functions you have been provided with. 
       Do not reply with helpful tips. Once you've recommended functions and received a response, pass the summarized result to the CAD coder agent.
 
-CadQuery_Code_Writer:
+CAD_Script_Writer:
     system_message: |
       You write python code to create CAD models using CadQuery.
       Wrap the code in a code block that specifies the script type.
@@ -90,9 +90,9 @@ CadQuery_Code_Writer:
 
 Executor:
     system_message: |
-      You save and execute the code written by the CadQuery Code Writer and also pass the full path of the saved screenshot to Reviewer for further processing.
+      You save and execute the code written by the CadQuery Code Writer and also pass the full path of the saved screenshot to Script_Execution_Reviewer for further processing.
 
-Reviewer:
+Script_Execution_Reviewer:
     system_message: |
       If code ran successfully, escalate the full_image_path obtained to the CAD_Image_Reviewer.The full_image_path must "always" be placed directly between the angle brackets along with "img" as <img full_image_path>. For example, if the image path is home/img/cup.png, it must be passed as "<img home/img/cup.png>". Never forget the opening and closing angle brackets and img and full_image_path between them as stated before.
       If execution fails, use the tips below to figure out the error and suggest required changes to the CadQuery Code Writer for code correction. You only make suggestions to eliminate error. You do not provide code.

@@ -6,9 +6,9 @@ from pathlib import Path
 import streamlit as st
 from streamlit_stl import stl_from_file
 
-from mechdesignagents.text_and_multi_chats import (designers_chat,
+from meda.text_and_multi_chats import (designers_chat,
                                              multimodal_designers_chat)
-from mechdesignagents.create_agents import create_mechdesign_agents
+from meda.create_agents import create_mechdesign_agents
 from streamlit_utils.file_handler import FileHandler
 from streamlit_utils.parameter_handler import ParameterHandler
 from streamlit_utils.prompt_builder import PromptBuilder
@@ -172,16 +172,16 @@ def render_controls():
     agents_list = \
         create_mechdesign_agents(st.session_state.llm_config)
     multimodal_agents = [agents_list[0],
+                        agents_list[1],
+                        agents_list[2],
                         agents_list[3],
-                        agents_list[5],
-                        agents_list[6],
-                        agents_list[7],]
-                        # agents_list[8]]
+                        agents_list[4],
+                        agents_list[6]]
     text_agents = [agents_list[0],
+                    agents_list[1],
+                    agents_list[2],
                     agents_list[3],
-                    agents_list[5],
-                    agents_list[6],
-                    agents_list[7],]
+                    agents_list[4],]
     text_prompt = st.text_input("Let's design",
                                 value=st.session_state.prompt,
                                 placeholder="Enter a text prompt here",
@@ -204,7 +204,7 @@ def render_controls():
         if final_prompt:
             with st.spinner("Generating CAD model..."):
                 try:
-                    if st.session_state.selected_model == "Text LLM":
+                    if st.session_state.selected_model == "Text LLM" or uploaded_file is None:
                         generated_files = designers_chat(
                             text_agents, st.session_state.llm_config, final_prompt)
                     else:

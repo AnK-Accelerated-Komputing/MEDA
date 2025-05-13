@@ -9,7 +9,7 @@ class StateManager:
         return {
             'stl_timestamp': None,
             'prompt': "",
-            'current_stl_path': 'data/ANK_CAD.stl',
+            'current_stl_path': 'data/MEDA.stl',
             'current_image_path': None,
             'generated_py_file': None,
             'color': "#FF9900",

@@ -3,8 +3,8 @@ import os
 from typing import Dict, List, Optional, Tuple
 
 from config.llm_config import LLMConfigSelector
-from mechdesignagents.create_agents import create_mechdesign_agents
-from mechdesignagents.text_and_multi_chats import designers_chat, multimodal_designers_chat
+from meda.create_agents import create_mechdesign_agents
+from meda.text_and_multi_chats import designers_chat, multimodal_designers_chat
 
 
 def clear_screen():

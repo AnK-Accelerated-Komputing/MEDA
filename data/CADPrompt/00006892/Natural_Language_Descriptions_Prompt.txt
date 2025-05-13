@@ -1,1 +1,0 @@
- Write Python code using CADQuery to create a long rectangular prism. Then, cut out a semi-circle shape from the length of the rectanglular prism.

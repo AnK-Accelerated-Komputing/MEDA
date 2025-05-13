@@ -1,1 +1,0 @@
-Write Python code using CADQuery to create a sketch of a large annulus shape and extrude it. Then, create a circle at the bottom of the cylinder to close it.

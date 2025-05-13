@@ -1,1 +1,0 @@
- Write a python code using CADQuery to create a rectangle with a circular hole in the middle.

@@ -1,2 +1,0 @@
- 
-Write Python code using CADQuery to create a long, hollow cylinder, and then extrude it. Afterward, cut off a semi-circular shape in the middle of the cylinder.

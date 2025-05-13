@@ -1,1 +1,0 @@
-  Write Python code using CADQuery to create a square and extrude it. The extrusion length should be twice the length of the square's side.
