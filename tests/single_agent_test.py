@@ -62,7 +62,7 @@ def read_prompts_from_file(filename):
 def extract_usage_metrics(response_cost):
     """Extract detailed usage metrics from response cost"""
     total_cost = response_cost['usage_including_cached_inference']['total_cost']
-    model_usage = response_cost['usage_including_cached_inference']['gpt-4o-2024-08-06']
+    model_usage = response_cost['usage_including_cached_inference']['gpt-4o']
 
     return {
         'total_cost': total_cost,
@@ -200,7 +200,7 @@ def main():
         print("\nBatch CAD generation system")
         print("----------------------------------")
         try:
-            filename = "tests/prompts.txt"
+            filename = "data/cad_prompts.txt"
             prompts = read_prompts_from_file(filename)
 
             if not prompts:
