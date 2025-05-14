@@ -27,7 +27,7 @@ def create_mechdesign_agents(config, working_dir="NewCADs", system_message_path=
         tuple: A tuple containing the created agents.
     """
     llm_config = {
-        "seed": 25,
+        "seed": 30,
         "temperature": 0.3,
         "config_list": [config],
         # "request_timeout": 600,
@@ -54,7 +54,7 @@ def create_mechdesign_agents(config, working_dir="NewCADs", system_message_path=
         is_termination_msg=termination_msg,
         human_input_mode="NEVER",  # Use ALWAYS for human in the loop
         llm_config={
-        "seed": 25,
+        "seed": 30,
         "temperature": 0.6,
         "config_list": [config],
     },
@@ -68,7 +68,7 @@ def create_mechdesign_agents(config, working_dir="NewCADs", system_message_path=
         system_message=get_system_message("CAD_Script_Writer",system_message_path),
         llm_config=llm_config,
         human_input_mode="NEVER",
-        description="""CadQuery Code Writer who writes python code to
+        description="""CAD Script Writer who writes python code to
     create CAD models following the system message.""",)
 
     executor = AssistantAgent(
@@ -81,7 +81,7 @@ def create_mechdesign_agents(config, working_dir="NewCADs", system_message_path=
             "use_docker": False,
             "timeout": 20,
         },
-        description="Executor who executes the code written by CadQuery Code Writer.")
+        description="Executor who executes the code written by CAD Script Writer.")
     
     reviewer = AssistantAgent(
         name="Script_Execution_Reviewer",
@@ -89,7 +89,7 @@ def create_mechdesign_agents(config, working_dir="NewCADs", system_message_path=
         system_message=get_system_message("Script_Execution_Reviewer",system_message_path),
         llm_config=llm_config,
         description="""Code Reviewer who can review python code written
-          by CadQuery Code Writer after executed by Executor.""",
+          by CAD Script Writer after executed by Executor.""",
     )
 
     cad_image_reviewer = AssistantAgent(

@@ -82,7 +82,7 @@ def handle_design_process(config: Dict, selected_model: str) -> None:
                         agents_list[3],
                         agents_list[4],
                         agents_list[6]]
-    text_agents = [agents_list[0],
+    meda = [agents_list[0],
                     agents_list[1],
                     agents_list[2],
                     agents_list[3],
@@ -98,7 +98,7 @@ def handle_design_process(config: Dict, selected_model: str) -> None:
     print("\nProcessing design request...")
     try:
         if selected_model == "Text LLM":
-            designers_chat(text_agents, config, final_prompt)
+            designers_chat(meda, config, final_prompt)
         else:
             multimodal_designers_chat(multimodal_agents, config, final_prompt)
         print("Design process completed successfully!")

@@ -87,14 +87,11 @@ def save_results(results, filename):
 def main():
     """Multi agent CAD generation with batch processing"""
     # Create output directory
-    #Set the working directory for CAD generation
-    #Change this to your desired working directory
-    cad_working_dir = "tests/results/Reviewer_1"
-
-    # Create output directory for log files
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = f"tests/results/Reviewer_1_{timestamp}"
+    output_dir = f"tests/results/test_script_exec_reviewer_log{timestamp}"
     os.makedirs(output_dir, exist_ok=True)
+    # Set the working directory for CAD generation
+    cad_working_dir=f"tests/results/test_script_exec_reviewer_CAD_{timestamp}"
 
     # Files for logging
     log_file = os.path.join(output_dir, "terminal_output.log")
@@ -112,8 +109,8 @@ def main():
                 "api_type": "azure",
                 "api_version": "2024-08-01-preview"
             }
-        agents_list = create_mechdesign_agents(config,cad_working_dir)
-        text_agents = [agents_list[0], #user
+        agents_list = create_mechdesign_agents(config,cad_working_dir,system_message_path="tests/system_message/custom_sys_msg_script_execution_reviewer.yaml")
+        meda = [agents_list[0], #user
                        agents_list[1], #design expert
                        agents_list[2], #cad coder
                        agents_list[3], #executor
@@ -126,7 +123,7 @@ def main():
         graph_dict[agents_list[4]] = [agents_list[1],agents_list[2]]
         
         groupchat = GroupChat(
-            agents=text_agents,
+            agents=meda,
             messages=[],
             max_round=8, #8 for 1 refinement, 12 for 2 refinements
             # speaker_selection_method="round_robin",
@@ -142,14 +139,14 @@ def main():
             groupchat=groupchat, llm_config={"seed":25,
                 "temperature":0.3,
                 "config_list": [config]})
-        all_agents = text_agents.copy()
+        all_agents = meda.copy()
         all_agents.append(group_chat_manager)
         print("\nBatch CAD generation system")
         print("----------------------------------")
         try:
             filename = "data/cad_prompts.txt"
             prompts = read_prompts_from_file(filename)
-            for agent in text_agents:
+            for agent in meda:
                 agent.reset()
             if not prompts:
                 print("No prompts found in file. Exiting.")
@@ -167,12 +164,12 @@ def main():
 
             for i, prompt in enumerate(prompts, 1):
                 try:
-                    for agent in text_agents:
+                    for agent in meda:
                         agent.reset()
                     print(
                         f"\nProcessing prompt {i} of {len(prompts)}: {prompt}")
                     start = time.time()
-                    response = text_agents[0].initiate_chat(
+                    response = meda[0].initiate_chat(
                         group_chat_manager, message=prompt)
                     processing_time = time.time() - start
                     response_cost = gather_usage_summary(all_agents)

@@ -70,12 +70,12 @@ CAD_Script_Writer:
 
 Executor:
     system_message: |
-      You save and execute the code written by the CadQuery Code Writer.
+      You save and execute the code written by the CAD Script Writer.
 
 Script_Execution_Reviewer:
     system_message: |
       If code ran successfully, escalate to CAD Image Reviewer.
-      If execution fails, use the tips below to figure out the error and suggest required changes to the CadQuery Code Writer for code correction. You only make suggestions to eliminate error. You do not provide code.
+      If execution fails, use the tips below to figure out the error and suggest required changes to the CAD Script Writer for code correction. You only make suggestions to eliminate error. You do not provide code.
       - AttributeError (e.g., 'Workplane' missing method): Use other relevant method or other class altogether such as Solid.makeTorus, Solid.makeCone, Solid.makeBox, Solid.makewedge, etc. and viceversa. 
       - OCP errors ("<OCP..."): Abandon approach; use pure CadQuery methods  
       - Geometry failures: Simplify shapes/booleans, verify dimensions  
@@ -84,17 +84,13 @@ Script_Execution_Reviewer:
       Ensure CadQuery-native APIs only   
       Escalate to Design Expert for fundamental design changes.  
 
-CAD_Data_Reviewer:
-    system_message: |
-      You review the image of the 2D cad data provided to assist in the creation of 3D model.
-      You will be provided image path by the User.
-
 CAD_Image_Reviewer:
     system_message: |
       Review the generated CAD model image and compare it with the prompt by calling the function.
       If the function returns a message indicating "SUCCESS" along with a description, terminate the chat.
       If the function returns a message indicating "FAILURE" with a detailed description of required changes, forward all necessary details to the Design Expert for corrections to ensure the accurate CAD model creation.
 
+#only for streamlit image input #not included in testing
 CAD_Data_Reviewer:
     system_message: |
       You review the image of the 2D cad data provided to assist in the creation of 3D model.

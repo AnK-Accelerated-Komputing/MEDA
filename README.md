@@ -116,7 +116,7 @@ An agentic system for CAD, CAE and CAM using multiagentic team
 | ~~• Retrieve User Proxy Agent~~ | ~~An agent that assists in retrieving content relevant to design problems.~~                          |
 | • Designer Expert                | An agent that provides information on how to approach design problems.                                 |
 | • CAD coder assistant            | An agent that retrieves CadQuery code relevant to design problems using langchain RAG.                 |
-| • CadQuery Code Writer           | Generates Python code to create CAD models using CadQuery.                                             |
+| • CAD Script Writer           | Generates Python code to create CAD models using CadQuery.                                             |
 | • Code Executor                  | Executes the generated code and generates the output.                                                  |
 | • Code Reviewer                  | Reviews the generated code for adherence to specified formats and guidelines and also execution output |
 

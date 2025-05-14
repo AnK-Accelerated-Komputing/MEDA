@@ -1,6 +1,6 @@
 """Three agent CAD generation with batch processing:
 1. User
-2. CadQuery Code Writer
+2. CAD Script Writer
 3. Executor"""
 import json
 import os
@@ -109,14 +109,14 @@ def main():
             "api_version": "2024-08-01-preview"
         }
         agents_list = create_mechdesign_agents(config)
-        text_agents = [agents_list[0],
+        meda = [agents_list[0],
                        agents_list[5],
                        agents_list[6],
                        agents_list[7],]
 
         groupchat = GroupChat(
             # agents=[User,designer_expert,cad_coder, executor, reviewer,cad_data_reviewer],
-            agents=text_agents,
+            agents=meda,
             messages=[],
             max_round=12,
             # speaker_selection_method="round_robin",
@@ -130,7 +130,7 @@ def main():
         )
         group_chat_manager = GroupChatManager(
             groupchat=groupchat, llm_config={"config_list": [config]})
-        all_agents = text_agents.copy()
+        all_agents = meda.copy()
         all_agents.append(group_chat_manager)
         print("\nBatch CAD generation system")
         print("----------------------------------")
@@ -153,12 +153,12 @@ def main():
 
             for i, prompt in enumerate(prompts, 1):
                 try:
-                    for agent in text_agents:
+                    for agent in meda:
                         agent.reset()
                     print(
                         f"\nProcessing prompt {i} of {len(prompts)}: {prompt}")
                     start = time.time()
-                    response = text_agents[0].initiate_chat(
+                    response = meda[0].initiate_chat(
                         group_chat_manager, message=prompt)
                     processing_time = time.time() - start
                     response_cost = gather_usage_summary(all_agents)

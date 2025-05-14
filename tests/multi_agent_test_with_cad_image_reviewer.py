@@ -4,7 +4,8 @@ Agents are:
 2. Design Expert
 3. CAD Coder
 4. Executor
-5. Script_Execution_Reviewer"""
+5. Script_Execution_Reviewer
+6. CAD_Image_Reviewer"""
 import json
 import os
 import sys
@@ -13,7 +14,6 @@ from contextlib import contextmanager
 from datetime import datetime
 
 from autogen import GroupChat, GroupChatManager
-from autogen.agentchat.contrib.capabilities.vision_capability import VisionCapability
 from autogen.agentchat.utils import gather_usage_summary
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(root_dir)
@@ -69,7 +69,7 @@ def read_prompts_from_file(filename):
 def extract_usage_metrics(response_cost):
     """Extract detailed usage metrics from response cost"""
     total_cost = response_cost['usage_including_cached_inference']['total_cost']
-    model_usage = response_cost['usage_including_cached_inference']['gpt-4o-2024-08-06']
+    model_usage = response_cost['usage_including_cached_inference']['gpt-4o']
 
     return {
         'total_cost': total_cost,
@@ -89,8 +89,10 @@ def main():
     """Multi agent CAD generation with batch processing"""
     # Create output directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = f"tests/results/CAD_prompts_executor_CAD_ablation{timestamp}"
+    output_dir = f"tests/results/test_cad_img_reviewer_log{timestamp}"
     os.makedirs(output_dir, exist_ok=True)
+    # Set the working directory for CAD generation
+    cad_working_dir=f"tests/results/test_cad_img_reviewer_CAD_{timestamp}"
 
     # Files for logging
     log_file = os.path.join(output_dir, "terminal_output.log")
@@ -108,27 +110,25 @@ def main():
                 "api_type": "azure",
                 "api_version": "2024-08-01-preview"
             }
-        agents_list = create_mechdesign_agents(config)
-        text_agents = [agents_list[0], #user
-                       agents_list[3], #design expert
-                       agents_list[5], #cad coder
-                       agents_list[6], #executor
-                        agents_list[7], #reviewer
-                        agents_list[9], #cad image reviewer
-                        ] #cad image retriever
+        agents_list = create_mechdesign_agents(config,working_dir=cad_working_dir)
+        meda = [agents_list[0], #user
+                       agents_list[1], #design expert
+                       agents_list[2], #cad coder
+                       agents_list[3], #executor
+                        agents_list[4], #reviewer
+                        agents_list[5],] #cad image reviewer
         graph_dict = {}
-        graph_dict[agents_list[0]] = [agents_list[3],agents_list[9]]
-        graph_dict[agents_list[3]] = [agents_list[5]]
-        graph_dict[agents_list[5]] = [agents_list[6]]
-        graph_dict[agents_list[6]] = [agents_list[7]]
-        graph_dict[agents_list[7]] = [agents_list[3],agents_list[5],agents_list[9]]
-        graph_dict[agents_list[9]] = [agents_list[9],agents_list[3]]
+        graph_dict[agents_list[0]] = [agents_list[1]]
+        graph_dict[agents_list[1]] = [agents_list[2]]
+        graph_dict[agents_list[2]] = [agents_list[3]]
+        graph_dict[agents_list[3]] = [agents_list[4]]
+        graph_dict[agents_list[4]] = [agents_list[1],agents_list[2],agents_list[5]]
+        graph_dict[agents_list[5]] = [agents_list[1]]
         
         groupchat = GroupChat(
-            # agents=[User,designer_expert,cad_coder, executor, reviewer,cad_data_reviewer],
-            agents=text_agents,
+            agents=meda,
             messages=[],
-            max_round=4,
+            max_round=30,
             # speaker_selection_method="round_robin",
             speaker_selection_method="auto",
             # allow_repeat_speaker=False,
@@ -142,20 +142,14 @@ def main():
             groupchat=groupchat, llm_config={"seed":25,
                 "temperature":0.3,
                 "config_list": [config]})
-        vision_capability = VisionCapability(lmm_config={
-            "seed": 25,
-            "temperature": 0.3,
-            "config_list": [config]})
-    
-        vision_capability.add_to_agent(group_chat_manager)
-        all_agents = text_agents.copy()
+        all_agents = meda.copy()
         all_agents.append(group_chat_manager)
         print("\nBatch CAD generation system")
         print("----------------------------------")
         try:
             filename = "data/cad_prompts.txt"
             prompts = read_prompts_from_file(filename)
-            for agent in text_agents:
+            for agent in meda:
                 agent.reset()
             if not prompts:
                 print("No prompts found in file. Exiting.")
@@ -173,15 +167,16 @@ def main():
 
             for i, prompt in enumerate(prompts, 1):
                 try:
-                    for agent in text_agents:
+                    for agent in meda:
                         agent.reset()
                     print(
                         f"\nProcessing prompt {i} of {len(prompts)}: {prompt}")
                     start = time.time()
-                    response = text_agents[0].initiate_chat(
+                    response = meda[0].initiate_chat(
                         group_chat_manager, message=prompt)
                     processing_time = time.time() - start
                     response_cost = gather_usage_summary(all_agents)
+                    print(response_cost)
                     usage_metrics = extract_usage_metrics(response_cost)
 
                     for key in total_metrics:

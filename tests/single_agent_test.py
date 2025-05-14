@@ -1,7 +1,7 @@
 
 """Batch CAD generation system using two agents:
-1. User
-2. CadQuery Code Writer"""
+1. User (also acts as executor)
+2. CAD Script Writer"""
 import os
 import sys
 import time
@@ -81,9 +81,12 @@ def save_results(results, filename):
 def main():
     """Two agent CAD generation with batch processing"""
     # Create output directory
+    # Create output directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = f"cad_generation_results_{timestamp}"
+    output_dir = f"tests/results/test_single_log{timestamp}"
     os.makedirs(output_dir, exist_ok=True)
+    # Set the working directory for CAD generation
+    cad_working_dir=f"tests/results/test_single_CAD_{timestamp}"
 
     # Files for logging
     log_file = os.path.join(output_dir, "terminal_output.log")
@@ -103,7 +106,7 @@ def main():
         }
 
         llm_config = {
-            "seed": 25,
+            "seed": 30,
             "temperature": 0.3,
             "config_list": [config],
         }
@@ -119,72 +122,78 @@ def main():
             human_input_mode="NEVER",
             max_consecutive_auto_reply=1,
             code_execution_config={
-                "work_dir": "GPT_single_5",
+                "work_dir": cad_working_dir,
                 "use_docker": False,
             },
-            description="The designer who asks questions to create CAD models using CadQuery",
+            description="The user who asks questions to create CAD models using CadQuery. Also executes the code.",
         )
 
         cad_coder = AssistantAgent(
             "CAD_Script_Writer",
-            system_message="""You only create the CAD model requested by the User.
-        You write python code to create CAD models using CadQuery.
-        Wrap the code in a code block that specifies the script type.
-        The user can't modify your code.
-        So do not suggest incomplete code which requires others to modify.
-        Don't use a code block if it's not intended to be executed by the executor.
-        Don't include multiple code blocks in one response.
-        Do not ask others to copy and paste the result.
-        If the result indicates there is an error, fix the error and output the code again.
-        Suggest the full code instead of partial code or code changes.
-        For every response, use this format in Python markdown:
-            Adhere strictly to the following outline
-            Python Markdown and File Name
-            Start with ```python and # filename: <design_name>.py (based on model type).
+            system_message="""
+            You are a specialized Design Expert equipped with deep knowledge of CadQuery. 
+      For each prompt, extract explicit dimensional details, constraints, and implied details and infer the missing data using best assumption. 
+      Use appropriate coordinates adopting a fixed datum (default origin), plane (default XY, up is Z) and precise dimension-driven parametric equations with proper named variables for positioning the features in the CAD model.
+      Identify the best CadQuery constructs (Workplane, Solid, Assembly) and build structured modeling plans following step by step parametric sequences of operations focusing on accurate placement of features such as holes, fillets, chamfers, blind, etc. within the bounds of outerdimension of the CAD model to prevent spatial reasoning error.
+      
+      Then,you write python code to create CAD models using CadQuery.
+      Wrap the code in a code block that specifies the script type.
+      The user can't modify your code.
+      So do not suggest incomplete code which requires others to modify.
+      Don't use a code block if it's not intended to be executed by the executor.
+      Don't include multiple code blocks in one response.
+      Do not ask others to copy and paste the result.
+      Suggest the full code instead of partial code or code changes.
+      For every response, use this format in Python markdown:
+      Adhere strictly to the following outline
+      Python Markdown and File Name
+      Start with ```python and # filename: <prompt_number>.py (based on prompt number).
 
-            Import Libraries
-            ALWAYS import cadquery and ocp_vscode (for visualization).
+      Import Libraries
+      ALWAYS import cadquery and ocp_vscode (for visualization). (Import cq_gears for creating gears)
 
-            Define Parameters
-            List dimensions or properties exactly as instructed by the analyst.
+      Define Parameters
+      List dimensions or properties exactly as instructed by the analyst.
 
-            Create the CAD Model
-            Build models using only CadQuery’s primitives and boolean operations as directed.
+      Create the CAD Model
+      Build models using only CadQuery’s primitives and boolean operations as directed.
 
-            Save the Model
-            Export in STL, STEP, and DXF formats.
+      Save the Model
+      Export in STL, and STEP.
 
-            Visualize the Model
-            Use show(model_name) from ocp_vscode to visualize.
+      Visualize the Model
+      Use show(model_name) from ocp_vscode to visualize.
 
-            Example:
-    ```
-            python
-            # filename: box.py
-            import cadquery as cq
-            from ocp_vscode import * #never forget this line
+      Example: 005:Write Python code using CADQuery to create a box of size 80*60*10. 
+      (use the given prompt number for filename)
+      ```python
+      # filename: 005.py
+      import cadquery as cq
+      from ocp_vscode import * #never forget this line
 
-            # Step 1: Define Parameters
-            height = 60.0
-            width = 80.0
-            thickness = 10.0
+      # Step 1: Define Parameters
+      height = 60.0
+      width = 80.0
+      thickness = 10.0
 
-            # Step 2: Create the CAD Model
-            box = cq.Workplane("XY").box(height, width, thickness)
+      # Step 2: Create the CAD Model
+      box = cq.Workplane("XY").box(height, width, thickness)
 
-            # Step 3: Save the Model
-            cq.exporters.export(box, "box.stl")
-            cq.exporters.export(box.section(), "box.dxf")
-            cq.exporters.export(box, "box.step")
+      # Step 3: Save the Model
+      cq.exporters.export(box, "005.stl")
+      cq.exporters.export(box, "005.step")
 
-            # Step 4: Visualize the Model
-            show(box) #always visualize the model
-    ```
-            Only use CadQuery’s predefined shapes and operations""",
+      # Step 4: Visualize the Model
+      show(box) #always visualize the model
+      save_screenshot("005.png") #save screenshot of the model
+      ```
+      Only use CadQuery’s predefined shapes and operations based on the Design Expert's instructions.
+      "TERMINATE" if successful code execution.
+""",
             llm_config=llm_config,
             is_termination_msg=termination_msg,
             human_input_mode="NEVER",
-            description="""CadQuery Code Writer who writes python code to
+            description="""CAD Script Writer who writes python code to
               create CAD models following the system message.""",
         )
 
@@ -218,7 +227,7 @@ def main():
 
                     start = time.time()
                     response = user.initiate_chat(
-                        cad_coder, message=prompt, max_turns=5)
+                        cad_coder, message=prompt, max_turns=2) # 2 trips of conversation, one extra chat by
                     processing_time = time.time() - start
                     print(response.cost)
                     usage_metrics = extract_usage_metrics(response.cost)
