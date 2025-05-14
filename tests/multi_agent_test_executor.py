@@ -1,11 +1,11 @@
-from ocp_vscode import show, save_screenshot
-"""Testing the multi-agent CAD generation system with batch processing
+"""
+Testing the multi-agent CAD generation system with batch processing
 Agents are:
 1. User
 2. Design Expert
 3. CAD Coder
 4. Executor
-5. Script_Execution_Reviewer"""
+"""
 import json
 import os
 import sys
@@ -17,7 +17,7 @@ from autogen import GroupChat, GroupChatManager
 from autogen.agentchat.utils import gather_usage_summary
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(root_dir)
-from meda.create_agents import create_mechdesign_agents
+from MEDA.create_agents import create_mechdesign_agents
 
 class TeeStream:
     """Stream object that writes to both terminal and file"""
@@ -89,9 +89,9 @@ def main():
     """Multi agent CAD generation with batch processing"""
     # Create output directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = f"tests/results/CAD_prompts_{timestamp}"
+    output_dir = f"tests/results/Executor_only_1_{timestamp}"
     os.makedirs(output_dir, exist_ok=True)
-    cad_working_dir= f"tests/results"
+    cad_working_dir="tests/results/Executor_only_1"
 
     # Files for logging
     log_file = os.path.join(output_dir, "terminal_output.log")

@@ -16,7 +16,7 @@ from autogen import GroupChat, GroupChatManager
 from autogen.agentchat.utils import gather_usage_summary
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(root_dir)
-from meda.create_agents import create_mechdesign_agents
+from MEDA.create_agents import create_mechdesign_agents
 
 class TeeStream:
     """Stream object that writes to both terminal and file"""
@@ -87,8 +87,13 @@ def save_results(results, filename):
 def main():
     """Multi agent CAD generation with batch processing"""
     # Create output directory
+    #Set the working directory for CAD generation
+    #Change this to your desired working directory
+    cad_working_dir = "tests/results/Reviewer_1"
+
+    # Create output directory for log files
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = f"tests/results/CAD_prompts_reviewer_3_{timestamp}"
+    output_dir = f"tests/results/Reviewer_1_{timestamp}"
     os.makedirs(output_dir, exist_ok=True)
 
     # Files for logging
@@ -107,24 +112,23 @@ def main():
                 "api_type": "azure",
                 "api_version": "2024-08-01-preview"
             }
-        agents_list = create_mechdesign_agents(config)
+        agents_list = create_mechdesign_agents(config,cad_working_dir)
         text_agents = [agents_list[0], #user
-                       agents_list[3], #design expert
-                       agents_list[5], #cad coder
-                       agents_list[6], #executor
-                        agents_list[7],] #reviewer
+                       agents_list[1], #design expert
+                       agents_list[2], #cad coder
+                       agents_list[3], #executor
+                        agents_list[4],] #reviewer
         graph_dict = {}
-        graph_dict[agents_list[0]] = [agents_list[3]]
-        graph_dict[agents_list[3]] = [agents_list[5]]
-        graph_dict[agents_list[5]] = [agents_list[6]]
-        graph_dict[agents_list[6]] = [agents_list[7]]
-        graph_dict[agents_list[7]] = [agents_list[3],agents_list[5]]
+        graph_dict[agents_list[0]] = [agents_list[1]]
+        graph_dict[agents_list[1]] = [agents_list[2]]
+        graph_dict[agents_list[2]] = [agents_list[3]]
+        graph_dict[agents_list[3]] = [agents_list[4]]
+        graph_dict[agents_list[4]] = [agents_list[1],agents_list[2]]
         
         groupchat = GroupChat(
-            # agents=[User,designer_expert,cad_coder, executor, reviewer,cad_data_reviewer],
             agents=text_agents,
             messages=[],
-            max_round=12,
+            max_round=8, #8 for 1 refinement, 12 for 2 refinements
             # speaker_selection_method="round_robin",
             speaker_selection_method="auto",
             # allow_repeat_speaker=False,

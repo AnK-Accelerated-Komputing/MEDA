@@ -15,7 +15,7 @@ from autogen.agentchat.utils import gather_usage_summary
 
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(root_dir)
-from meda.create_agents import create_mechdesign_agents
+from MEDA.create_agents import create_mechdesign_agents
 
 
 

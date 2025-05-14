@@ -3,8 +3,8 @@ import os
 from typing import Dict, List, Optional, Tuple
 
 from config.llm_config import LLMConfigSelector
-from meda.create_agents import create_mechdesign_agents
-from meda.text_and_multi_chats import designers_chat, multimodal_designers_chat
+from MEDA.create_agents import create_mechdesign_agents
+from MEDA.text_and_multi_chats import designers_chat, multimodal_designers_chat
 
 
 def clear_screen():
@@ -77,16 +77,16 @@ def handle_design_process(config: Dict, selected_model: str) -> None:
     agents_list = \
         create_mechdesign_agents(config)
     multimodal_agents = [agents_list[0],
+                        agents_list[1],
+                        agents_list[2],
                         agents_list[3],
-                        agents_list[5],
-                        agents_list[6],
-                        agents_list[7],
-                        agents_list[8]]
+                        agents_list[4],
+                        agents_list[6]]
     text_agents = [agents_list[0],
+                    agents_list[1],
+                    agents_list[2],
                     agents_list[3],
-                    agents_list[5],
-                    agents_list[6],
-                    agents_list[7],]
+                    agents_list[4],]
 
     # Get input from user
     text_prompt, image_path = get_design_input(selected_model != "Text LLM")

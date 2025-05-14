@@ -6,9 +6,9 @@ from pathlib import Path
 import streamlit as st
 from streamlit_stl import stl_from_file
 
-from meda.text_and_multi_chats import (designers_chat,
+from MEDA.text_and_multi_chats import (designers_chat,
                                              multimodal_designers_chat)
-from meda.create_agents import create_mechdesign_agents
+from MEDA.create_agents import create_mechdesign_agents
 from streamlit_utils.file_handler import FileHandler
 from streamlit_utils.parameter_handler import ParameterHandler
 from streamlit_utils.prompt_builder import PromptBuilder
