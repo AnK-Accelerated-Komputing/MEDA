@@ -1,6 +1,6 @@
-# MechDesignAgents
+# MEDA
 
-An agentic system for CAD, CAE and CAM using multiagentic team
+A multi-agent system for parametric CAD model creation
 
 ## Setup Instructions
 
@@ -10,7 +10,7 @@ An agentic system for CAD, CAE and CAM using multiagentic team
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/AnK-Accelerated-Komputing/MechDesignAgents.git
+   git clone https://github.com/AnK-Accelerated-Komputing/MEDA.git
    cd MechDesignAgents
    ```
 
@@ -23,7 +23,7 @@ An agentic system for CAD, CAE and CAM using multiagentic team
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/AnK-Accelerated-Komputing/MechDesignAgents.git
+   git clone https://github.com/AnK-Accelerated-Komputing/MEDA.git
    cd MechDesignAgents
    ```
 
@@ -51,14 +51,6 @@ An agentic system for CAD, CAE and CAM using multiagentic team
    export AZURE_API_KEY='your_azure_api_key'
    export AZURE_OPENAI_BASE='your_azure_openai_base_url'
    ```
-
-4. **Run the Application**
-   ```bash
-   python main.py
-   ```
-
-5. **Interact with the Application**
-   Follow the on-screen instructions to interact with the CAD Design AI Chatbot.
 
 3. **Install Dependencies**
    ```bash
@@ -91,9 +83,10 @@ An agentic system for CAD, CAE and CAM using multiagentic team
    ```bash
    streamlit run streamlitapp.py
    ```
+   You can insert the api key for different models with streamlit app.
 
 5. **Interact with the Application**
-   Follow the on-screen instructions to interact with the CAD Design AI Chatbot.
+   Follow the on-screen instructions to interact with MEDA.
 
 ### Notes
 
