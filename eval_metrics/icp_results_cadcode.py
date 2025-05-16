@@ -1,17 +1,14 @@
+''' This is the evaluation script for the STL files provided by the CADCodeVerify authors.
+'''
 import math
 import os
 from pathlib import Path
 
-import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import open3d as o3d
 import pandas as pd
 import plotly.graph_objects as go
-# import tqdm
-# from mpl_toolkits.mplot3d import Axes3D
-# from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-# from skimage.metrics import mean_squared_error, structural_similarity
 from sklearn.neighbors import NearestNeighbors
 from stl import mesh
 
@@ -155,7 +152,7 @@ def iterative_closest_point(A, B, max_iterations=20, tolerance=0.001):  # tolera
     return T, finalA, final_error, i
 
 
-def intersection_over_GT2(GT, test, threshold=-0.6):  # -0.6
+def intersection_over_GT(GT, test, threshold=-0.6):  # -0.6
     # Convert to binary images based on a threshold
     # print(GT)
     GT_binary = (GT > threshold).astype(np.uint8)
@@ -169,19 +166,6 @@ def intersection_over_GT2(GT, test, threshold=-0.6):  # -0.6
     if np.count_nonzero(GT_binary) == 0:
         return 0  # Handle division by zero if GT has no foreground pixels
     return np.count_nonzero(intersection) / np.count_nonzero(GT_binary)
-
-
-def intersection_over_GT(GT, test):
-    # Ensure both images are single-channel by converting them to grayscale if they are not
-    if len(GT.shape) == 3:
-        GT = cv2.cvtColor(GT, cv2.COLOR_BGR2GRAY)
-    if len(test.shape) == 3:
-        test = cv2.cvtColor(test, cv2.COLOR_BGR2GRAY)
-
-    # intersection = cv2.bitwise_and(GT, test)
-    intersection = np.logical_and(GT, test).astype(np.uint8)
-
-    return cv2.countNonZero(intersection) / cv2.countNonZero(GT)
 
 
 def point_cloud_distance(pc1, pc2):
@@ -209,19 +193,6 @@ def point_cloud_distance(pc1, pc2):
     avg_distance = np.mean(min_distances)
 
     return avg_distance
-
-
-def voxel_grid2(point_cloud, grid_size):
-    # Normalizing coordinates to the grid size
-    min_vals = np.min(point_cloud, axis=0)
-    max_vals = np.max(point_cloud, axis=0)
-    # Adjust max_vals slightly to ensure points on the upper boundary are included
-    max_vals += 1e-9
-    scales = (grid_size - 1) / (max_vals - min_vals)
-    voxels = np.floor((point_cloud - min_vals) * scales).astype(int)
-    # Ensure all voxel indices are within the grid size
-    voxels = np.clip(voxels, 0, grid_size - 1)
-    return set(map(tuple, voxels))
 
 
 def hausdorff_distance(pc1, pc2):
@@ -267,7 +238,7 @@ def iou(y_true, y_pred):
 def calculate_iqr(data):
     """
     Calculate the Inter-Quartile Range (IQR) and quartiles for a given dataset.
-    
+
     Returns:
         tuple: (Q1, median, Q3, IQR)
     """
@@ -321,7 +292,7 @@ def evaluate_stl_files(generated_dir, ground_truth_dir, output_csv, summary_csv)
             source_points = pc_normalize(source_points)
             T, finalA, final_error, i = iterative_closest_point(
                 source_points, destination_points, 2000)
-            iogt = intersection_over_GT2(destination_points, finalA)
+            iogt = intersection_over_GT(destination_points, finalA)
             pc_dist = point_cloud_distance(destination_points, finalA)
             haus_dist = hausdorff_distance(destination_points, finalA)
 
@@ -462,26 +433,10 @@ def main():
     """
     Main function to run the evaluation.
     """
-    # Set the directories and output files with the correct names
-    # generated_dir = "/home/niel77/CADsimtest/ablation_study/Executor"
-    # ground_truth_dir = "/home/niel77/CADsimtest/Ground_truth"
-    # output_csv = "cadcodeverify_summary_executor.csv"
-    # summary_csv = "cadcodeverify_summary_executor.csv"
-
-    # generated_dir = "/home/niel77/CADsimtest/ablation_study/Reviewer_first_refinement"
-    # ground_truth_dir = "/home/niel77/CADsimtest/Ground_truth"
-    # output_csv = "cadcodeverify_results_reviewer_first.csv"
-    # summary_csv = "cadcodeverify_summary_reviewer_first.csv"
-
-    # generated_dir = "/home/niel77/CADsimtest/ablation_study/Reviewer_second_refinement"
-    # ground_truth_dir = "/home/niel77/CADsimtest/Ground_truth"
-    # output_csv = "cadcodeverify_results_reviewer_second.csv"
-    # summary_csv = "cadcodeverify_summary_reviewer_second.csv"
-
-    generated_dir = "/home/niel77/CADsimtest/ablation_study/Final"
-    ground_truth_dir = "/home/niel77/CADsimtest/Ground_truth"
-    output_csv = "cadcodeverify_results_final.csv"
-    summary_csv = "cadcodeverify_summary_final.csv"
+    generated_dir = "Your_generated_directory"  # Replace with your generated directory
+    ground_truth_dir = "data/Ground_truth"
+    output_csv = "results_final.csv"
+    summary_csv = "summary_final.csv"
 
     # Create directories if they don't exist
     os.makedirs(generated_dir, exist_ok=True)

@@ -10,14 +10,7 @@ tiktoken==0.7.0
 autogen[retrievechat]
 pyautogen[gemini]
 flaml[automl]
-langchain_community
-langchain_groq
-langchain_huggingface
-langchain_chroma
+open3d
 streamlit
 streamlit_stl
 python-dotenv
-langchain_core==0.3.31
-langchain==0.3.15
-SQLAlchemy==2.0.37
-langchain[openai]

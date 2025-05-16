@@ -1,3 +1,4 @@
+#Evalution script by us but not used in for evaluation for consistent comparison between the two models
 import numpy as np
 import open3d as o3d
 import pandas as pd
