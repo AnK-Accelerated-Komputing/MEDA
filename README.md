@@ -17,7 +17,7 @@ A multi-agent system for parametric CAD model creation
 2. **Create and Activate Conda Environment**
    ```bash
    conda env create -f environment.yml
-   conda activate magents
+   conda activate MEDA
    ```
 #### Using Pip
 
