@@ -87,6 +87,10 @@ An agentic system for CAD, CAE and CAM using multiagentic team
    ```bash
    python main.py
    ```
+   For streamlit app
+   ```bash
+   streamlit run streamlitapp.py
+   ```
 
 5. **Interact with the Application**
    Follow the on-screen instructions to interact with the CAD Design AI Chatbot.
