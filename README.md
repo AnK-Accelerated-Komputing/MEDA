@@ -97,29 +97,6 @@ An agentic system for CAD, CAE and CAM using multiagentic team
 - If you encounter any issues, check the dependencies and ensure all are installed correctly.
 
 
-# MechDesignAgents File Summary
-
-| File Name                              | Purpose                                                                                                                                                      |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `__init__.py`                        | Initializes the `mechdesignagents` Python package by importing all necessary components from agent and design files.                                       |
-| `agents.py`                          | Defines multiple agents for user interaction. EachEach agent has specific configurations and roles in the chat system.                                       |
-| `chat_with_designer_expert.py`       | (Recommended) Implements a group chat system with designer expert agent  where all agents can interact to resolve a design problem collaboratively.          |
-| `chat_with_cadcoder.py`              | Simple implementation where the designer agent initiates a chat with the CadQuery code writer based on a design problem input by the user.                   |
-| `chat_with_designers_no_rag.py`      | Implements a group chat system without RAG (Retrieval-Augmented Generation), where all agents can interact to resolve a design problem collaboratively.      |
-| `chat_with_designers_autogen_rag.py` | Similar to designers_no_rag.py, but integrates a retrieval component, allowing the CadQuery code writer to retrieve relevant content before generating code. |
-
-## Agents: (Expect changes in these agents)
-
-| Agent Name                        | Purpose                                                                                                |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| • User Agent                     | A user proxy that interacts with humans to gather design requirements.                                 |
-| ~~• Retrieve User Proxy Agent~~ | ~~An agent that assists in retrieving content relevant to design problems.~~                          |
-| • Designer Expert                | An agent that provides information on how to approach design problems.                                 |
-| • CAD coder assistant            | An agent that retrieves CadQuery code relevant to design problems using langchain RAG.                 |
-| • CAD Script Writer           | Generates Python code to create CAD models using CadQuery.                                             |
-| • Code Executor                  | Executes the generated code and generates the output.                                                  |
-| • Code Reviewer                  | Reviews the generated code for adherence to specified formats and guidelines and also execution output |
-
 ## FAQ
 
 #### How to check the install packages?
