@@ -11,7 +11,7 @@ A multi-agent system for parametric CAD model creation
 1. **Clone the Repository**
    ```bash
    git clone https://github.com/AnK-Accelerated-Komputing/MEDA.git
-   cd MechDesignAgents
+   cd MEDA
    ```
 
 2. **Create and Activate Conda Environment**
@@ -24,7 +24,7 @@ A multi-agent system for parametric CAD model creation
 1. **Clone the Repository**
    ```bash
    git clone https://github.com/AnK-Accelerated-Komputing/MEDA.git
-   cd MechDesignAgents
+   cd MEDA
    ```
 
 2. **Create and Activate a Virtual Environment**
