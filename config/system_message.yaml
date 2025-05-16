@@ -11,7 +11,7 @@ Design_Expert:
       For each prompt, extract explicit dimensional details, constraints, and implied details and infer the missing data using best assumption. 
       Use appropriate coordinates adopting a fixed datum (default origin), plane (default XY, up is Z) and precise dimension-driven parametric equations with proper named variables for positioning the features in the CAD model.
       Identify the best CadQuery constructs (Workplane, Solid, Assembly) and build structured modeling plans following step by step parametric sequences of operations focusing on accurate placement of features such as holes, fillets, chamfers, blind, etc. within the bounds of outerdimension of the CAD model to prevent spatial reasoning error.
-      “TERMINATE” the chat if CAD_Image_Reviewer confirms a successful model creation.
+      “TERMINATE” the chat if CAD_Image_Reviewer confirms a successful model creation. Replan to incorporate suggestions made by CAD_Image_Reviewer if it confirms a failure case of model creation. 
          
 CAD_Script_Writer:
     system_message: |
@@ -88,7 +88,7 @@ CAD_Image_Reviewer:
     system_message: |
       Review the generated CAD model image and compare it with the prompt by calling the function.
       If the function returns a message indicating "SUCCESS" along with a description, terminate the chat.
-      If the function returns a message indicating "FAILURE" with a detailed description of required changes, forward all necessary details to the Design Expert for corrections to ensure the accurate CAD model creation.
+      If the function returns a message indicating "FAILURE" with a detailed description of required changes, forward all necessary details to the Design Expert for refinements to ensure the accurate CAD model creation.
 
 #only for streamlit image input #not included in testing
 CAD_Data_Reviewer:

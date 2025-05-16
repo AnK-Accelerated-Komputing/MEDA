@@ -68,7 +68,7 @@ def read_prompts_from_file(filename):
 def extract_usage_metrics(response_cost):
     """Extract detailed usage metrics from response cost"""
     total_cost = response_cost['usage_including_cached_inference']['total_cost']
-    model_usage = response_cost['usage_including_cached_inference']['gpt-4o']
+    model_usage = response_cost['usage_including_cached_inference']['gpt-4o-2024-08-06']
 
     return {
         'total_cost': total_cost,
@@ -88,10 +88,10 @@ def main():
     """Multi agent CAD generation with batch processing"""
     # Create output directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = f"tests/results/test_script_exec_reviewer_log{timestamp}"
+    output_dir = f"tests/results/test_script_exec_reviewer_dr_seed_45_log{timestamp}"
     os.makedirs(output_dir, exist_ok=True)
     # Set the working directory for CAD generation
-    cad_working_dir=f"tests/results/test_script_exec_reviewer_CAD_{timestamp}"
+    cad_working_dir=f"tests/results/test_script_exec_reviewer_dr_seed_45_CAD_{timestamp}"
 
     # Files for logging
     log_file = os.path.join(output_dir, "terminal_output.log")
@@ -109,7 +109,7 @@ def main():
                 "api_type": "azure",
                 "api_version": "2024-08-01-preview"
             }
-        agents_list = create_mechdesign_agents(config,cad_working_dir,system_message_path="tests/system_message/custom_sys_msg_script_execution_reviewer.yaml")
+        agents_list = create_mechdesign_agents(config,cad_working_dir,system_message_path="tests/custom_sys_msg_script_execution_reviewer.yaml")
         meda = [agents_list[0], #user
                        agents_list[1], #design expert
                        agents_list[2], #cad coder
@@ -125,7 +125,7 @@ def main():
         groupchat = GroupChat(
             agents=meda,
             messages=[],
-            max_round=8, #8 for 1 refinement, 12 for 2 refinements
+            max_round=12, #8 for 1 refinement, 12 for 2 refinements
             # speaker_selection_method="round_robin",
             speaker_selection_method="auto",
             # allow_repeat_speaker=False,
@@ -136,7 +136,7 @@ def main():
             speaker_transitions_type="allowed",
         )
         group_chat_manager = GroupChatManager(
-            groupchat=groupchat, llm_config={"seed":25,
+            groupchat=groupchat, llm_config={"seed": 43,
                 "temperature":0.3,
                 "config_list": [config]})
         all_agents = meda.copy()

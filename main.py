@@ -127,7 +127,7 @@ def main():
 
         # Configuration setup
         if selected_model in ["Default GPT-40", "Default O1"]:
-            model_key = "gpt-4o" if selected_model == "Default GPT-40" else "o1"
+            model_key = "gpt-4o-2024-08-06-2024-08-06-2024-08-06-2024-08-06-2024-08-06-2024-08-06-2024-08-06" if selected_model == "Default GPT-40" else "o1"
             model_info = selector.get_default_model_info(model_key)
             config = {
                 "model": model_info["model"],

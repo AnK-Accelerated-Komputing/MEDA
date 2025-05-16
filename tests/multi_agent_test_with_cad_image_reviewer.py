@@ -69,7 +69,7 @@ def read_prompts_from_file(filename):
 def extract_usage_metrics(response_cost):
     """Extract detailed usage metrics from response cost"""
     total_cost = response_cost['usage_including_cached_inference']['total_cost']
-    model_usage = response_cost['usage_including_cached_inference']['gpt-4o']
+    model_usage = response_cost['usage_including_cached_inference']['gpt-4o-2024-08-06']
 
     return {
         'total_cost': total_cost,
@@ -89,10 +89,10 @@ def main():
     """Multi agent CAD generation with batch processing"""
     # Create output directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = f"tests/results/test_cad_img_reviewer_log{timestamp}"
+    output_dir = f"tests/results/test_cad_img_reviewer_seed_50_log_{timestamp}"
     os.makedirs(output_dir, exist_ok=True)
     # Set the working directory for CAD generation
-    cad_working_dir=f"tests/results/test_cad_img_reviewer_CAD_{timestamp}"
+    cad_working_dir=f"tests/results/test_cad_img_reviewer_seed_50_CAD_{timestamp}"
 
     # Files for logging
     log_file = os.path.join(output_dir, "terminal_output.log")
@@ -139,7 +139,7 @@ def main():
             speaker_transitions_type="allowed",
         )
         group_chat_manager = GroupChatManager(
-            groupchat=groupchat, llm_config={"seed":25,
+            groupchat=groupchat, llm_config={"seed": 50,
                 "temperature":0.3,
                 "config_list": [config]})
         all_agents = meda.copy()

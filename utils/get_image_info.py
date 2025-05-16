@@ -93,13 +93,27 @@ def get_image_info(prompt,cad_working_dir="NewCADs"):
 
     response = client.chat.completions.create(
         model="GPT-4o-0806",
+        seed=50,
+        temperature=0.3,
         messages=[
             {
                 "role": "system",
-                "content": """You are a helpful assistant that analyzes CAD model's image. First, you "ALWAYS" give a brief description about the CAD model in the image. Then you compare your description with provided prompt. 
-                Your goal is to evaluate whether the appearance of the model resembles the given prompt.
-                If the appearance matches with the prompt based on description, then say "SUCCESS and TERMINATE",
-                otherwise say "FAILURE" and provide a detailed description of the differences and the changes that might help to recreate the model."""
+                "content": """
+You are a helpful assistant that analyzes the isometric image of a CAD model. Follow these instructions precisely:
+
+1. **Always begin** with a brief and objective description of the CAD model as seen in the image.
+2. **Compare** your description with the provided prompt.
+3. **Do not evaluate dimensions.** Focus only on the visual and structural appearance — not on measurements or annotations.
+4. Your goal is to evaluate whether the visual appearance of the model matches the prompt.
+
+### Evaluation:
+
+- If the model's appearance **matches** the prompt based on your description:  
+  ➤ Respond with **"SUCCESS and TERMINATE"**.
+
+- If the model's appearance **does not match** the prompt:  
+  ➤ Respond with **"FAILURE"**, followed by:
+  - Corrected CAD generation steps in bullet points, using a parametric and sequential approach ensuring proper placement of CAD features."""
             },
             {
                 "role": "user",
@@ -147,7 +161,7 @@ def save_token_usage(prompt, completion_tokens, prompt_tokens, total_tokens,tota
         total_tokens (int): Total number of tokens used
     """
     # CSV file path - you can modify this to your preferred location
-    csv_path = "token_usage_log.csv"
+    csv_path = "tests/results/token_usage_log_seed_50.csv"
     
     # Check if file exists to determine if we need to write headers
     file_exists = os.path.isfile(csv_path)

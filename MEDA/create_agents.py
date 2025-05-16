@@ -27,7 +27,7 @@ def create_mechdesign_agents(config, working_dir="NewCADs", system_message_path=
         tuple: A tuple containing the created agents.
     """
     llm_config = {
-        "seed": 30,
+        "seed": 50,
         "temperature": 0.3,
         "config_list": [config],
         # "request_timeout": 600,
@@ -54,7 +54,7 @@ def create_mechdesign_agents(config, working_dir="NewCADs", system_message_path=
         is_termination_msg=termination_msg,
         human_input_mode="NEVER",  # Use ALWAYS for human in the loop
         llm_config={
-        "seed": 30,
+        "seed": 50,
         "temperature": 0.6,
         "config_list": [config],
     },
