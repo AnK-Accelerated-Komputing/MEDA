@@ -19,9 +19,9 @@ dependencies:
     - groq
     - ocp_tessellate
     - ocp_vscode
-    - pyautogen
+    - ag2
     - tiktoken
     - autogen[retrievechat]
-    - pyautogen[gemini]
+    - ag2[gemini]
     - flaml[automl]
     - streamlit_stl
