@@ -4,11 +4,11 @@ cadquery-ocp==7.7.2
 groq==0.11.0
 ocp_tessellate==3.0.4
 ocp_vscode==2.4.1
-pyautogen==0.3.0
+ag2==0.3.0
 setuptools==73.0.1
 tiktoken==0.7.0
 autogen[retrievechat]
-pyautogen[gemini]
+ag2[gemini]
 flaml[automl]
 open3d
 streamlit
